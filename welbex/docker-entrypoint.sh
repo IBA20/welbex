@@ -3,6 +3,7 @@
 set -e
 
 service cron start
+echo POSTGRES_URL=$POSTGRES_URL | tee /etc/environment
 
 curl_put()
 {

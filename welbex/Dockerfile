@@ -15,5 +15,5 @@ COPY docker-entrypoint.sh /usr/local/bin/
 RUN chmod 755 /usr/local/bin/docker-entrypoint.sh
 COPY . /welbex/
 RUN SECRET_KEY=empty python manage.py collectstatic --noinput
-RUN (echo "*/3 * * * * cd /welbex && python ./manage.py relocate_cars") | crontab
+RUN (echo "*/3 * * * * cd /welbex && /usr/local/bin/python3.10 ./manage.py relocate_cars") | crontab
 EXPOSE 8000

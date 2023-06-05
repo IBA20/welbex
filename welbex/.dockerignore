@@ -1,0 +1,8 @@
+venv/
+.env
+.dockerignore
+Dockerfile
+*/.gitkeep
+.idea/
+
+

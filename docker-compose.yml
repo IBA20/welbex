@@ -1,0 +1,29 @@
+version: "3"
+
+services:
+  db:
+    image: postgres:12.0-alpine
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB-welbex}
+      POSTGRES_USER: ${POSTGRES_USER-welbex}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD-welbexpwd}
+
+  web:
+    build: welbex
+    container_name: 'welbex'
+    depends_on:
+      db:
+        condition: service_started
+    environment:
+      - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
+      - DJANGO_DEBUG=${DJANGO_DEBUG}
+      - DJANGO_ALLOWED_HOSTS=${DJANGO_ALLOWED_HOSTS-localhost,127.0.0.1,[::1]}
+      - POSTGRES_URL=${POSTGRES_URL-postgres://welbex:welbexpwd@db:5432/welbex}
+      - CARS_LOOKUP_RADIUS_MI=${CARS_LOOKUP_RADIUS_MI-450}
+    ports:
+      - "8000:8000"
+
+volumes:
+  db_data:

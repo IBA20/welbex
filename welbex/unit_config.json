@@ -1,0 +1,43 @@
+{
+    "listeners": {
+        "*:8000": {
+            "pass": "routes/app"
+        }
+    },
+
+    "routes": {
+        "app": [
+            {
+                "match": {
+                    "uri": "/static/*"
+                },
+                "action": {
+                    "share": "/welbex/$uri"
+                }
+            },
+            {
+                "match": {
+                    "uri": "/media/*"
+                },
+                "action": {
+                    "share": "welbex/$uri"
+                }
+            },
+            {
+                "action": {
+                    "pass": "applications/app"
+                }
+            }
+        ]
+    },
+    "applications":{
+       "app": {
+            "type":"python 3.10",
+            "path":"/welbex/",
+            "module":"welbex.wsgi",
+            "environment": {
+                "DJANGO_SETTINGS_MODULE": "welbex.settings"
+            }
+        }
+    }
+}
